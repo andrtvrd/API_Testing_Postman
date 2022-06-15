@@ -1,0 +1,767 @@
+{
+	"info": {
+		"_postman_id": "31f13268-e950-453a-a44f-c129ff23fc8e",
+		"name": "Swagger PetStore Custom",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20113518"
+	},
+	"item": [
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "Pets List by Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"console.log(pm.variables.get(\"url\"));\r",
+									"\r",
+									"pm.test(\"Contains 'available' status\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"available\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"First status equals 'available' in key-value pairs\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].status).to.eql(\"available\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Connection is present\", function () {\r",
+									"    pm.response.to.have.header(\"Connection\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/pet/findByStatus?status=available",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"findByStatus"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "available"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pet By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check pet name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"Volodya\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check pet category name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.category.name).to.eql(\"Buzza\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/pet/{{petid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{petid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Pet By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(\"You've updated a pet with ID \" + pm.collectionVariables.get(\"petid\"));\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Vladimir",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "Pending",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/pet/{{petid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{petid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload image with Pet Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "additionalMetadata",
+									"value": "Hudoba",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/pet/{{petid}}/uploadImage",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{petid}}",
+								"uploadImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new Pet to the store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Photo link validation\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.photoUrls[0]).to.eql(\"www.parrots.org/photo1\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\":\t\"Volodya\",\r\n\"photoUrls\": [\r\n    \"www.parrots.org/photo1\"\r\n],\r\n\"id\": 202207,\r\n\"category\":\t{\r\n    \"id\": 12675,\r\n    \"name\": \"Buzza\"\r\n    },\r\n\"tags\": [\r\n{\r\n        \"id\": 5566,\r\n        \"name\": \"A Scary Mummy\"\r\n    }\r\n],\r\n\"status\": \"yes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/pet",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Pet with PUT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Method is PUT\", function () {\r",
+									"    pm.expect(pm.request.method).to.equal(\"PUT\")\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"name\":\t\"Volodyaa\",\r\n\"photoUrls\": [\r\n    \"www.parrots.org/photo1\"\r\n],\r\n\"id\": 202207,\r\n\"category\":\t{\r\n    \"id\": 12675,\r\n    \"name\": \"Buzza\"\r\n    },\r\n\"tags\": [\r\n{\r\n        \"id\": 5566,\r\n        \"name\": \"A Scary Mummy\"\r\n    }\r\n],\r\n\"status\": \"none\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/pet",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pet By Tags",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Pet is taken from variables\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[0].id).to.eql(parseInt(pm.collectionVariables.get(\"petid\")));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/pet/findByTags?tags=A Scary Mummy",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"findByTags"
+							],
+							"query": [
+								{
+									"key": "tags",
+									"value": "A Scary Mummy"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pet by statuses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/store/inventory",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Pet By Id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const createPet = {\r",
+									"  url: (pm.collectionVariables.get(\"url\"))+'/pet/',\r",
+									"  method: 'POST',\r",
+									" header: {\r",
+									"    'Content-Type': 'application/json',\r",
+									"    'Accept': '*/*'\r",
+									"  },\r",
+									"  body: {\r",
+									"    mode: 'raw',\r",
+									"    raw: JSON.stringify({\r",
+									"\"name\": \"Volodya\",\r",
+									"  \"photoUrls\": [\r",
+									"    \"www.parrots.org/photo1\"\r",
+									"     ],\r",
+									"  \"id\": 202207,\r",
+									"  \"category\":\t{\r",
+									"  \"id\": 12675,\r",
+									"  \"name\": \"Buzza\"\r",
+									"    },\r",
+									"  \"tags\": [\r",
+									"    {\r",
+									"        \"id\": 5566,\r",
+									"       \"name\": \"A Scary Mummy\"\r",
+									"    }\r",
+									"],\r",
+									"\"status\": \"yes\"\r",
+									"    })\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.sendRequest(createPet);\r",
+									"\r",
+									"//pm.sendRequest(createPet, (error, response) => {\r",
+									" // if (error) {\r",
+									" //   console.log(error);\r",
+									" // }});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Server respond is also 200\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.code).to.eql(200);\r",
+									"});\r",
+									"\r",
+									"//pm.sendRequest(\"pm.collectionVariables.get(url)/pet/pm.collectionVariables.get(petid)\", function (err, response) {\r",
+									"//    console.log(response.json());\r",
+									"//});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/pet/{{petid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pet",
+								"{{petid}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Get Order By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/store/order/{{orderId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Order By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/store/order/{{orderId}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Place order for a Pet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 567098,\r\n    \"petId\": 202207,\r\n    \"quantity\": 1,\r\n    \"shipDate\": \"\",\r\n    \"status\": \"placed\",\r\n    \"complete\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/store/order",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create Users with array",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n{\r\n    \"id\": 12345,\r\n    \"username\": \"Farrel\",\r\n    \"firstName\": \"CJ\",\r\n    \"lastName\": \"Mikhalok\",\r\n    \"email\": \"burgomistr@mail.co.uk\",\r\n    \"password\": \"abcd1234\",\r\n    \"phone\": 36590455,\r\n    \"userStatus\": 5\r\n},\r\n{\r\n    \"id\": 12346,\r\n    \"username\": \"Budan\",\r\n    \"firstName\": \"Jeremy\",\r\n    \"lastName\": \"Kolbachev\",\r\n    \"email\": \"burgomistr1@mail.co.uk\",\r\n    \"password\": \"abcd1234\",\r\n    \"phone\": 36590456,\r\n    \"userStatus\": 6\r\n}\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/createWithArray",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"createWithArray"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User by Username",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/Farrel",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"Farrel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find User by Username",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 123456,\r\n    \"username\": \"Farrel\",\r\n    \"firstName\": \"CJ\",\r\n    \"lastName\": \"Mikhalok\",\r\n    \"email\": \"burgomistr@mail.co.uk\",\r\n    \"password\": \"abcd1234\",\r\n    \"phone\": \"36590455\",\r\n    \"userStatus\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/Farrel",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"Farrel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/login?username=Farrel&password=abcd1234",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Farrel"
+								},
+								{
+									"key": "password",
+									"value": "abcd1234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12345,\r\n    \"username\": \"Farrel\",\r\n    \"firstName\": \"CJ\",\r\n    \"lastName\": \"Mikhalok\",\r\n    \"email\": \"burgomistr@mail.co.uk\",\r\n    \"password\": \"abcd1234\",\r\n    \"phone\": 36590455,\r\n    \"userStatus\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Users with list",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n    \"id\": 12345,\r\n    \"username\": \"Farrel\",\r\n    \"firstName\": \"CJ\",\r\n    \"lastName\": \"Mikhalok\",\r\n    \"email\": \"burgomistr@mail.co.uk\",\r\n    \"password\": \"abcd1234\",\r\n    \"phone\": 36590455,\r\n    \"userStatus\": 5\r\n}\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/createWithList",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"createWithList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API info for import",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/swagger.json",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://petstore.swagger.io/v2",
+			"type": "string"
+		},
+		{
+			"key": "petid",
+			"value": "202207",
+			"type": "string"
+		},
+		{
+			"key": "orderId",
+			"value": "567098"
+		}
+	]
+}

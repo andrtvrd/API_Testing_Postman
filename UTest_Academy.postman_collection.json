@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "002168a8-5cdc-48a1-9f66-8041fb68adeb",
+		"name": "UTest Academy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20113518"
+	},
+	"item": [
+		{
+			"name": "First Test Collection",
+			"item": [
+				{
+					"name": "POST example",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "firstname",
+									"value": "Brunod",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Chicago",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://testtraining.org/postform.php",
+							"protocol": "https",
+							"host": [
+								"testtraining",
+								"org"
+							],
+							"path": [
+								"postform.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH example",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "3=Dmitro"
+						},
+						"url": {
+							"raw": "https://testtraining.org/patchdata.php",
+							"protocol": "https",
+							"host": [
+								"testtraining",
+								"org"
+							],
+							"path": [
+								"patchdata.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT example",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "a,b,c,d"
+						},
+						"url": {
+							"raw": "https://testtraining.org/putdata.php",
+							"protocol": "https",
+							"host": [
+								"testtraining",
+								"org"
+							],
+							"path": [
+								"putdata.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET file example - https://testtraining.org/data.txt",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://testtraining.org/data.txt",
+							"protocol": "https",
+							"host": [
+								"testtraining",
+								"org"
+							],
+							"path": [
+								"data.txt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Request Example AAAA",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://example.com",
+							"protocol": "https",
+							"host": [
+								"example",
+								"com"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Second Test Collection",
+			"item": [
+				{
+					"name": "Sample with BEARER TOKEN authentication - POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://testtraining.org/login.php",
+							"protocol": "https",
+							"host": [
+								"testtraining",
+								"org"
+							],
+							"path": [
+								"login.php"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample with BEARER TOKEN authentication - GET",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "EXAMPLETOKEN",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://testtraining.org/bearerauth.php",
+							"protocol": "https",
+							"host": [
+								"testtraining",
+								"org"
+							],
+							"path": [
+								"bearerauth.php"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
