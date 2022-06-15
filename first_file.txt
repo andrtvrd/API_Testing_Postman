@@ -1,4 +1,0 @@
-first string
-second string
-third string (made in remote repo)
-One more string
